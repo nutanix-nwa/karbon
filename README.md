@@ -14,3 +14,8 @@ for namespace in $(kubectl get namespace|grep ns-test|awk {'print $1'}); do kube
 ```console
 for sa in sa1 sa2 sa3; do export SA_NAME=$sa ; export SA_NAMESPACE=sa-namespace ; cat sa.yaml | envsubst | kubectl apply -f -; done
 ```
+
+#### Provide multiple sa admin access to a given namespace
+```console
+for sa in sa1 sa2 sa3; do export SA_NAME=$sa ; export SA_NAMESPACE=sa-namespace ; export NAMESPACE=app-namespace ; cat sa-to-clusterrole-namespaced-admin.yaml | envsubst | kubectl apply -f -; done
+```
