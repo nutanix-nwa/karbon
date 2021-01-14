@@ -1,4 +1,4 @@
-## Custum kubernetes cheat sheet
+## Custom kubernetes cheat sheet
 
 #### Apply one limit range on multiple namespaces
 ```console
