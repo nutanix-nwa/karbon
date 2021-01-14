@@ -3,7 +3,7 @@ kind: Namespace
 metadata:
   name: $NAMESPACE
   # annotations:
-  #  scheduler.alpha.kubernetes.io/node-selector: application=gppr
+  #  scheduler.alpha.kubernetes.io/node-selector: application=myapp
   # labels:
   #  environment: $ENVIRONEMENT_NAME
   #  application: $APPLICATION_NAME
