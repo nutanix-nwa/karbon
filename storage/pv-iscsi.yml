@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: $PV_NAME
+spec:
+  capacity:
+    storage: ${VOLUME_CAPACITY}Gi
+  accessModes:
+    - ReadWriteOnce
+  iscsi:
+     targetPortal: $ISCSI_IP
+     iqn: $ISCSI_IQN
+     lun: 0
+     fsType: 'xfs'
+     readOnly: false

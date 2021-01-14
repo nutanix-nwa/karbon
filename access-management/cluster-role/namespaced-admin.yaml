@@ -1,0 +1,95 @@
+## https://akomljen.com/kubernetes-api-resources-which-group-and-version-to-use/
+## Get all API resources supported by your Kubernetes cluster using this command:
+# kubectl api-resources -o wide
+## Get API resources for a particular API group, for example:
+# kubectl api-resources --api-group apps -o wide
+## For each of those kinds you could use kubectl explain to get more info about 
+## the particular resource:
+# kubectl explain configmap
+## Get all API versions supported by your cluster using this command:
+# kubectl api-versions
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: namespaced-admin
+rules:
+############## API Group "" #############
+- apiGroups:
+  - ""
+  resources:
+  # Binding ties one object to another; for example, a pod is bound to a nodde by a scheduler.
+  - bindings
+  - configmaps
+  # Endpoints is a collection of endpoints that implement the actual service
+  - endpoints
+  - events
+  # LimitRange sets resource usage limits for each kind of resource in a Namespace.
+  - limitranges
+  - persistentvolumeclaims
+  - pods
+  - podtemplates
+  - replicationcontrollers
+  - secrets
+  # - serviceaccounts
+  - services
+  verbs: 
+  - '*'
+#### resourcequotas permission ####
+- apiGroups:
+  - ""
+  resources:
+  - resourcequotas
+  verbs:
+  - get
+  - list
+  - watch
+######### Enable POD Exec and Get Logs #########
+- apiGroups: [""]
+  resources: ["pods", "pods/log"]
+  verbs: ["get", "list"]
+- apiGroups: [""]
+  resources: ["pods/exec"]
+  verbs: ["create"]
+############## API Group apps #############
+- apiGroups:
+  - apps
+  resources:
+  # ControllerRevision implements an immutable snapshot of state data. Clients
+  #   are responsible for serializing and deserializing the objects that contain
+  #   their internal state.
+  - controllerrevisions
+  #- daemonsets
+  - deployments
+  - replicasets
+  - statefulsets
+  verbs:
+  - '*'
+############## API Group extensions #############
+- apiGroups:
+  - extensions
+  resources:
+  - ingresses
+  verbs:
+  - '*'
+############## API Group networking.k8s.io | Ingress #############
+- apiGroups:
+  - networking.k8s.io
+  resources:
+  - ingresses
+  verbs:
+  - '*'
+############## API Group batch #############
+- apiGroups:
+  - batch
+  resources:
+  - jobs
+  - cronjobs
+  verbs:
+  - '*'
+############## API Group batch #############
+- apiGroups:
+  - autoscaling
+  resources:
+  - horizontalpodautoscalers
+  verbs:
+  - '*'

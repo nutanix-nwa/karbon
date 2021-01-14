@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: $PV_NAME
+spec:
+  capacity:
+    storage: ${VOLUME_CAPACITY}Gi
+  accessModes:
+    - ReadWriteOnce
+  nfs: 
+    path: $NFS_PATH
+    server: $NFS_IP
+  persistentVolumeReclaimPolicy: Recycle

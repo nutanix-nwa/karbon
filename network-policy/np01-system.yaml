@@ -1,0 +1,18 @@
+# kubectl get ns|grep  "cert-manager\|default\|globalaccounts\|kube-node-lease\|kube-public\|local-path-storage\|logging\|monitoring"|awk {'print "kubectl apply -f np01-system.yaml -n "$1'}|bash
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: np01-system
+#  namespace: cert-manager\|default\|globalaccounts\|kube-node-lease\|kube-public\|local-path-storage\|logging\|monitoring
+spec:
+  podSelector:
+    matchLabels:
+  ingress:
+  # Allow all the coomunication comming from any namespace that have label namespace-network: net-system
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          namespace-network: net-system
+  # Allow all the communication between POD in the same namespaces
+  - from:
+    - podSelector: {}

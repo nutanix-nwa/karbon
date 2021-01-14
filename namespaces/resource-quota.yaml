@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: defautl-resourcequota
+  namespace: $NAMESPACE
+spec:
+  hard:
+    requests.memory: 40Gi
+    limits.memory: 40Gi
+    requests.cpu: 20
+    limits.cpu: 20
+    requests.storage: 0Gi
