@@ -3,7 +3,7 @@
 # kubectl api-resources -o wide
 ## Get API resources for a particular API group, for example:
 # kubectl api-resources --api-group apps -o wide
-## For each of those kinds you could use kubectl explain to get more info about 
+## For each of those kinds you could use kubectl explain to get more info about
 ## the particular resource:
 # kubectl explain configmap
 ## Get all API versions supported by your cluster using this command:
@@ -32,8 +32,22 @@ rules:
   - secrets
   # - serviceaccounts
   - services
-  verbs: 
+  verbs:
   - '*'
+######### Enable POD Exec and Get Logs #########
+- apiGroups:
+  - ""
+  resources:
+  - pods/log
+  verbs:
+  - get
+  - list
+- apiGroups:
+  - ""
+  resources:
+  - pods/exec
+  verbs:
+  - create
 #### resourcequotas permission ####
 - apiGroups:
   - ""
@@ -43,13 +57,6 @@ rules:
   - get
   - list
   - watch
-######### Enable POD Exec and Get Logs #########
-- apiGroups: [""]
-  resources: ["pods", "pods/log"]
-  verbs: ["get", "list"]
-- apiGroups: [""]
-  resources: ["pods/exec"]
-  verbs: ["create"]
 ############## API Group apps #############
 - apiGroups:
   - apps
@@ -64,6 +71,12 @@ rules:
   - statefulsets
   verbs:
   - '*'
+- apiGroups:
+  - apps
+  resources:
+  - deployments/scale
+  verbs:
+  - patch
 ############## API Group extensions #############
 - apiGroups:
   - extensions
