@@ -54,3 +54,11 @@ sed "/token:/c\    token: $token"|sed "/namespace:/c\    namespace: $namespace"|
 sed -r "s/name: [a-z0-9]+@/name: $USERID@/" > authentication-config/${USERID}-authentication-config.yaml; \
 done
 ```
+
+#### Install Ingress Nginx
+```bash
+helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+helm repo update
+helm get values ingress-nginx
+helm install ingress-nginx ingress-nginx/ingress-nginx -f values.yaml
+```
