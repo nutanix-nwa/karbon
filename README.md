@@ -59,7 +59,7 @@ done
 ```bash
 helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
 helm repo update
-helm show value ingress-nginx/ingress-nginx > ingress-nginx.values.yaml
+helm show values ingress-nginx/ingress-nginx > ingress-nginx.values.yaml
 kubectl create ns ingress-nginx
 helm install ingress-nginx ingress-nginx/ingress-nginx -f ingress-nginx.values.yaml -n ingress-nginx
 ```
@@ -68,7 +68,7 @@ helm install ingress-nginx ingress-nginx/ingress-nginx -f ingress-nginx.values.y
 ```bash
 helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/
 helm repo update
-helm show value kubernetes-dashboard/kubernetes-dashboard > kubernetes-dashboard.values.yaml
+helm show values kubernetes-dashboard/kubernetes-dashboard > kubernetes-dashboard.values.yaml
 kubectl create ns kubernetes-dashboard
 helm install kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard -f kubernetes-dashboard.values.yaml -n kubernetes-dashboard
 ```
