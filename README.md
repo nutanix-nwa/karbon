@@ -18,6 +18,12 @@ for node in worker1 worker2; do \
 kubectl label node $node environment=test; done
 ```
 
+#### Apply taint on some nodes
+```bash
+for node in worker1 worker2; do \
+kubectl taint node $node key1=value1:NoSchedule; done
+```
+
 #### Create multiple sa in a global namespace
 ```bash
 for sa in sa1 sa2 sa3; do \
