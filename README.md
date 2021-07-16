@@ -59,6 +59,6 @@ done
 ```bash
 helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
 helm repo update
-helm get values ingress-nginx
+wget https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/charts/ingress-nginx/values.yaml
 helm install ingress-nginx ingress-nginx/ingress-nginx -f values.yaml
 ```
