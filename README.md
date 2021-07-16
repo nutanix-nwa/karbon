@@ -14,7 +14,7 @@ kubectl label ns $namespace environment=test; done
 
 #### Apply label on some nodes
 ```bash
-for node in $(worker1 worker2 worker3); do \
+for node in worker1 worker2; do \
 kubectl label node $node environment=test; done
 ```
 
