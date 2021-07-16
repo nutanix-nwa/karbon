@@ -60,5 +60,6 @@ done
 helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
 helm repo update
 wget https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/charts/ingress-nginx/values.yaml
-helm install ingress-nginx ingress-nginx/ingress-nginx -f values.yaml
+kubectl create ns ingress-nginx
+helm install ingress-nginx ingress-nginx/ingress-nginx -f values.yaml -n ingress-nginx
 ```
