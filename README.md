@@ -103,6 +103,13 @@ spec:
         storageClassName: default-storageclass
     podTemplate:
       spec:
+        nodeSelector:
+          role: logging-monitoring
+        tolerations:
+        - key: "role"
+          operator: "Equal"
+          value: "loggign-monitoring"
+          effect: "NoSchedule"
         initContainers:
         - name: sysctl
           securityContext:
