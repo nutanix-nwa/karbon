@@ -76,8 +76,8 @@ helm install kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard -f k
 #### Install ECK
 ```bash
 helm repo add elastic https://helm.elastic.co
-helm install elastic-operator elastic/eck-operator -n elastic-system --create-namespace
 helm show values elastic/eck-operator > eck-operator.values.yaml
+helm install elastic-operator elastic/eck-operator -n elastic-system --create-namespace
 # Edit the values
 vim eck-operator.values.yaml
 ```
