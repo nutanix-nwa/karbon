@@ -77,7 +77,21 @@ helm install kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard -f k
 ```bash
 helm repo add elastic https://helm.elastic.co
 helm show values elastic/eck-operator > eck-operator.values.yaml
-helm install elastic-operator elastic/eck-operator -n elastic-system --create-namespace
 # Edit the values
 vim eck-operator.values.yaml
+helm install elastic-operator elastic/eck-operator -n elastic-system --create-namespace
+kubectl create ns apps-central-logs
+cat <<EOF | kubectl apply -n apps-central-logs -f -
+apiVersion: elasticsearch.k8s.elastic.co/v1
+kind: Elasticsearch
+metadata:
+  name: quickstart
+spec:
+  version: 7.13.3
+  nodeSets:
+  - name: default
+    count: 1
+    config:
+      node.store.allow_mmap: false
+EOF
 ```
