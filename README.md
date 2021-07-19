@@ -67,9 +67,17 @@ helm install ingress-nginx ingress-nginx/ingress-nginx -f ingress-nginx.values.y
 #### Install K8S Dashboard
 ```bash
 helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/
-helm repo update
 helm show values kubernetes-dashboard/kubernetes-dashboard > kubernetes-dashboard.values.yaml
 # Edit the values
 vim kubernetes-dashboard.values.yaml
 helm install kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard -f kubernetes-dashboard.values.yaml -n kubernetes-dashboard --create-namespace
+```
+
+#### Install ECK
+```bash
+helm repo add elastic https://helm.elastic.co
+helm install elastic-operator elastic/eck-operator -n elastic-system --create-namespace
+helm show values elastic/eck-operator > eck-operator.values.yaml
+# Edit the values
+vim eck-operator.values.yaml
 ```
