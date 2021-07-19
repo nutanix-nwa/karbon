@@ -128,4 +128,30 @@ spec:
           - name: ES_JAVA_OPTS
             value: "-Xms2g -Xmx2g"
 EOF
+cat <<EOF | kubectl apply -n apps-central-logs -f -
+apiVersion: kibana.k8s.elastic.co/v1
+kind: Kibana
+metadata:
+  name: kibana-apps-central-logs
+spec:
+  version: 7.13.3
+  count: 1
+  elasticsearchRef:
+    name: apps-central-logs
+  podTemplate:
+    spec:
+      nodeSelector:
+        role: logging-monitoring
+      tolerations:
+      - key: "role 
+        operator: "Equal"
+        value: "loggign-monitoring"
+        effect: "NoSchedule"
+      containers:
+      - name: kibana
+        resources:
+          limits:
+            memory: 1Gi
+            cpu: 1
+EOF
 ```
