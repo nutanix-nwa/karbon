@@ -58,11 +58,10 @@ done
 #### Install Ingress Nginx
 ```bash
 helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
-helm repo update
 helm show values ingress-nginx/ingress-nginx > ingress-nginx.values.yaml
+# Edit the values
 vim ingress-nginx.values.yaml
-kubectl create ns ingress-nginx
-helm install ingress-nginx ingress-nginx/ingress-nginx -f ingress-nginx.values.yaml -n ingress-nginx
+helm install ingress-nginx ingress-nginx/ingress-nginx -f ingress-nginx.values.yaml -n ingress-nginx --create-namespace
 ```
 
 #### Install K8S Dashboard
@@ -70,7 +69,7 @@ helm install ingress-nginx ingress-nginx/ingress-nginx -f ingress-nginx.values.y
 helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/
 helm repo update
 helm show values kubernetes-dashboard/kubernetes-dashboard > kubernetes-dashboard.values.yaml
+# Edit the values
 vim kubernetes-dashboard.values.yaml
-kubectl create ns kubernetes-dashboard
-helm install kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard -f kubernetes-dashboard.values.yaml -n kubernetes-dashboard
+helm install kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard -f kubernetes-dashboard.values.yaml -n kubernetes-dashboard --create-namespace
 ```
