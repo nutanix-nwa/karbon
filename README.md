@@ -143,7 +143,7 @@ spec:
       nodeSelector:
         role: logging-monitoring
       tolerations:
-      - key: "role 
+      - key: "role"
         operator: "Equal"
         value: "loggign-monitoring"
         effect: "NoSchedule"
