@@ -85,13 +85,40 @@ cat <<EOF | kubectl apply -n apps-central-logs -f -
 apiVersion: elasticsearch.k8s.elastic.co/v1
 kind: Elasticsearch
 metadata:
-  name: quickstart
+  name: apps-central-logs
 spec:
   version: 7.13.3
   nodeSets:
-  - name: default
+  - name: apps-central-logs
     count: 1
-    config:
-      node.store.allow_mmap: false
+    volumeClaimTemplates:
+    - metadata:
+        name: elasticsearch-logging
+      spec:
+        accessModes:
+        - ReadWriteOnce
+        resources:
+          requests:
+            storage: 200Gi
+        storageClassName: default-storageclass
+    podTemplate:
+      spec:
+        initContainers:
+        - name: sysctl
+          securityContext:
+            privileged: true
+          command: ['sh', '-c', 'sysctl -w vm.max_map_count=262144']
+        containers:
+        - name: elasticsearch
+          resources:
+            limits:
+              memory: "4Gi"
+              cpu: 2
+            requests:
+              memory: "4Gi"
+              cpu: 2
+          env:
+          - name: ES_JAVA_OPTS
+            value: "-Xms2g -Xmx2g"
 EOF
 ```
