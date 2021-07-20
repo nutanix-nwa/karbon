@@ -83,7 +83,8 @@ helm install ingress-nginx ingress-nginx/ingress-nginx -n ingress-nginx --create
 helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/
 helm install kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard -n kubernetes-dashboard --create-namespace \
 --set replicaCount=2 \
---set tolerations[0].key=role,tolerations[0].operator=Equal,tolerations[0].value=infra,tolerations[0].effect=NoSchedule --set nodeSelector.role=infra \
+--set tolerations[0].key=role,tolerations[0].operator=Equal,tolerations[0].value=infra,tolerations[0].effect=NoSchedule \
+--set nodeSelector.role=infra \
 --set ingress.enabled=true \
 --set ingress.hosts[0]=kubernetes-dashboard.home.local
 
