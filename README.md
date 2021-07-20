@@ -65,7 +65,11 @@ done
 ```bash
 helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
 
-helm install ingress-nginx ingress-nginx/ingress-nginx -n ingress-nginx --create-namespace --set controller.hostNetwork=true --set controller.hostPort.enabled=true --set controller.kind=DaemonSet --set controller.tolerations[0].key=role,controller.tolerations[0].operator=Equal,controller.tolerations[0].value=infra,controller.tolerations[0].effect=NoSchedule --set controller.nodeSelector.role=infra
+helm install ingress-nginx ingress-nginx/ingress-nginx -n ingress-nginx --create-namespace \
+--set controller.hostNetwork=true --set controller.hostPort.enabled=true \
+--set controller.kind=DaemonSet \
+--set controller.tolerations[0].key=role,controller.tolerations[0].operator=Equal,controller.tolerations[0].value=infra,controller.tolerations[0].effect=NoSchedule \
+--set controller.nodeSelector.role=infra
 
 # Or
 # helm show values ingress-nginx/ingress-nginx > ingress-nginx.values.yaml
