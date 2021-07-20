@@ -9,19 +9,25 @@ export NAMESPACE=$namespace ; cat limitrange.yaml | envsubst | kubectl apply -f 
 #### Apply label on some namespaces
 ```bash
 for namespace in $(kubectl get namespace|grep ns-test|awk {'print $1'}); do \
-kubectl label ns $namespace environment=test; done
+kubectl label ns $namespace environment=dev; done
 ```
 
 #### Apply label on some nodes
 ```bash
 for node in worker1 worker2; do \
-kubectl label node $node environment=test; done
+kubectl label node $node role=infra; done
+
+for node in worker3 worker4; do \
+kubectl label node $node role=logging-monitoring; done
 ```
 
 #### Apply taint on some nodes
 ```bash
 for node in worker1 worker2; do \
-kubectl taint node $node key1=value1:NoSchedule; done
+kubectl taint node $node role=infra:NoSchedule; done
+
+for node in worker1 worker2; do \
+kubectl taint node $node role=logging-monitoring:NoSchedule; done
 ```
 
 #### Create multiple sa in a global namespace
