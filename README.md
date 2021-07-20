@@ -113,6 +113,8 @@ spec:
   nodeSets:
   - name: apps-central-logs
     count: 1
+    config:
+      node.store.allow_mmap: false
     volumeClaimTemplates:
     - metadata:
         name: elasticsearch-logging
@@ -175,5 +177,26 @@ spec:
           limits:
             memory: 1Gi
             cpu: 1
+EOF
+cat <<EOF | kubectl apply -n apps-central-logs -f -
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: kibana-apps-central-logs-kb-http
+  namespace: apps-central-logs
+  annotations:
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+spec:
+  rules:
+  - host: kibana.home.local
+    http:
+      paths:
+      - backend:
+          service:
+            name: kibana-apps-central-logs-kb-http 
+            port:
+              number: 5601
+        path: /
+        pathType: ImplementationSpecific
 EOF
 ```
