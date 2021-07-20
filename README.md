@@ -199,4 +199,6 @@ spec:
         path: /
         pathType: ImplementationSpecific
 EOF
+
+kubectl get secret apps-central-logs-es-elastic-user -o=jsonpath='{.data.elastic}' -n apps-central-logs| base64 --decode; echo
 ```
