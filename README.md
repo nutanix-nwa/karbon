@@ -26,7 +26,7 @@ kubectl label node $node role=logging-monitoring; done
 for node in worker1 worker2; do \
 kubectl taint node $node role=infra:NoSchedule; done
 
-for node in worker1 worker2; do \
+for node in worker3 worker4; do \
 kubectl taint node $node role=logging-monitoring:NoSchedule; done
 ```
 
