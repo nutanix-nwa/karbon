@@ -103,6 +103,7 @@ helm show values elastic/eck-operator > eck-operator.values.yaml
 vim eck-operator.values.yaml
 helm install elastic-operator elastic/eck-operator -n elastic-system --create-namespace
 kubectl create ns apps-central-logs
+
 cat <<EOF | kubectl apply -n apps-central-logs -f -
 apiVersion: elasticsearch.k8s.elastic.co/v1
 kind: Elasticsearch
@@ -111,7 +112,7 @@ metadata:
 spec:
   version: 7.13.3
   nodeSets:
-  - name: apps-central-logs
+  - name: default
     count: 1
     config:
       node.store.allow_mmap: false
@@ -123,35 +124,29 @@ spec:
         - ReadWriteOnce
         resources:
           requests:
-            storage: 200Gi
-        storageClassName: default-storageclass
+            storage: 5Gi
+        storageClassName: local-path
     podTemplate:
       spec:
-        nodeSelector:
-          role: logging-monitoring
         tolerations:
         - key: "role"
           operator: "Equal"
-          value: "loggign-monitoring"
+          value: "logging-monitoring"
           effect: "NoSchedule"
-        initContainers:
-        - name: sysctl
-          securityContext:
-            privileged: true
-          command: ['sh', '-c', 'sysctl -w vm.max_map_count=262144']
+        nodeSelector:
+          role: logging-monitoring
         containers:
         - name: elasticsearch
           resources:
             limits:
-              memory: "4Gi"
-              cpu: 2
+              memory: "2Gi"
             requests:
-              memory: "4Gi"
-              cpu: 2
+              memory: "2Gi"
           env:
           - name: ES_JAVA_OPTS
-            value: "-Xms2g -Xmx2g"
+            value: "-Xms1g -Xmx1g"
 EOF
+
 cat <<EOF | kubectl apply -n apps-central-logs -f -
 apiVersion: kibana.k8s.elastic.co/v1
 kind: Kibana
