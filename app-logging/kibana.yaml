@@ -1,0 +1,26 @@
+apiVersion: kibana.k8s.elastic.co/v1
+kind: Kibana
+metadata:
+  name: kibana-appslogs
+spec:
+  version: 7.13.3
+  count: 1
+  elasticsearchRef:
+    name: es-appslogs
+  podTemplate:
+    spec:
+      # Change tolerations and node selector based on needs
+      nodeSelector:
+        role: logging-monitoring
+      tolerations:
+      - key: "role"
+        operator: "Equal"
+        value: "logging-monitoring"
+        effect: "NoSchedule"
+      containers:
+      - name: kibana
+        resources:
+          # Change resources
+          limits:
+            memory: 1Gi
+            cpu: 1
