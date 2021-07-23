@@ -98,102 +98,23 @@ helm install kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard -n k
 #### Install ECK
 ```bash
 helm repo add elastic https://helm.elastic.co
-helm show values elastic/eck-operator > eck-operator.values.yaml
+
+# helm show values elastic/eck-operator > eck-operator.values.yaml
 # Edit the values
-vim eck-operator.values.yaml
-helm install elastic-operator elastic/eck-operator -n elastic-system --create-namespace
-kubectl create ns apps-central-logs
+# vim eck-operator.values.yaml
+# helm install elastic-operator elastic/eck-operator -n elastic-system --create-namespace
 
-cat <<EOF | kubectl apply -n apps-central-logs -f -
-apiVersion: elasticsearch.k8s.elastic.co/v1
-kind: Elasticsearch
-metadata:
-  name: apps-central-logs
-spec:
-  version: 7.13.3
-  nodeSets:
-  - name: default
-    count: 1
-    config:
-      node.store.allow_mmap: false
-    volumeClaimTemplates:
-    - metadata:
-        name: elasticsearch-logging
-      spec:
-        accessModes:
-        - ReadWriteOnce
-        resources:
-          requests:
-            storage: 5Gi
-        storageClassName: local-path
-    podTemplate:
-      spec:
-        tolerations:
-        - key: "role"
-          operator: "Equal"
-          value: "logging-monitoring"
-          effect: "NoSchedule"
-        nodeSelector:
-          role: logging-monitoring
-        containers:
-        - name: elasticsearch
-          resources:
-            limits:
-              memory: "2Gi"
-            requests:
-              memory: "2Gi"
-          env:
-          - name: ES_JAVA_OPTS
-            value: "-Xms1g -Xmx1g"
-EOF
+helm install elastic-operator elastic/eck-operator -n elastic-system --create-namespace \
+--set tolerations[0].key=role,tolerations[0].operator=Equal,tolerations[0].value=infra,tolerations[0].effect=NoSchedule \
+--set nodeSelector.role=logging-monitoring
 
-cat <<EOF | kubectl apply -n apps-central-logs -f -
-apiVersion: kibana.k8s.elastic.co/v1
-kind: Kibana
-metadata:
-  name: kibana-apps-central-logs
-spec:
-  version: 7.13.3
-  count: 1
-  elasticsearchRef:
-    name: apps-central-logs
-  podTemplate:
-    spec:
-      nodeSelector:
-        role: logging-monitoring
-      tolerations:
-      - key: "role"
-        operator: "Equal"
-        value: "logging-monitoring"
-        effect: "NoSchedule"
-      containers:
-      - name: kibana
-        resources:
-          limits:
-            memory: 1Gi
-            cpu: 1
-EOF
-cat <<EOF | kubectl apply -n apps-central-logs -f -
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: kibana-apps-central-logs-kb-http
-  namespace: apps-central-logs
-  annotations:
-    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
-spec:
-  rules:
-  - host: kibana.home.local
-    http:
-      paths:
-      - backend:
-          service:
-            name: kibana-apps-central-logs-kb-http 
-            port:
-              number: 5601
-        path: /
-        pathType: ImplementationSpecific
-EOF
-
-kubectl get secret apps-central-logs-es-elastic-user -o=jsonpath='{.data.elastic}' -n apps-central-logs| base64 --decode; echo
+kubectl create ns apps-logs
+# Edit value with required parameters
+vim ./app-logging/beat.namespaced.yaml
+vim ./app-logging/beat.rbac.yaml
+vim ./app-logging/elasticsearch.yaml
+vim ./app-logging/kibana.ingress.yaml
+vim ./app-logging/kibana.yaml
+kubectl apply -n apps-logs -f ./app-logging/
+kubectl get secret es-appslogs-es-elastic-user -o=jsonpath='{.data.elastic}' -n apps-logs| base64 --decode; echo
 ```
