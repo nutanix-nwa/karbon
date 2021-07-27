@@ -105,7 +105,7 @@ helm repo add elastic https://helm.elastic.co
 # helm install elastic-operator elastic/eck-operator -n elastic-system --create-namespace
 
 helm install elastic-operator elastic/eck-operator -n elastic-system --create-namespace \
---set tolerations[0].key=role,tolerations[0].operator=Equal,tolerations[0].value=infra,tolerations[0].effect=NoSchedule \
+--set tolerations[0].key=role,tolerations[0].operator=Equal,tolerations[0].value=logging-monitoring,tolerations[0].effect=NoSchedule \
 --set nodeSelector.role=logging-monitoring
 
 kubectl create ns apps-logs
