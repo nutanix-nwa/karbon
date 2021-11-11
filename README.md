@@ -1,5 +1,5 @@
-Nutanix Northwest Africa Customers REX exchange
-/!\ Disclaimer, this is not official Nutanix repositories, This is a REX exchange between Nutanix customers in NWA around Nutanix products.
+##### Nutanix Northwest Africa Customers REX exchange
+##### /!\ Disclaimer, this is not official Nutanix repositories, This is a REX exchange between Nutanix customers in NWA around Nutanix products.
 
 ## Custom kubernetes cheat sheet
 
