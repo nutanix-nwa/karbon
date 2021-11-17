@@ -65,6 +65,7 @@ done
 ```
 
 #### Install Ingress Nginx
+Tested on Karbon 2.3 | Kubernetes 1.20 | Ingress Nginx Helm chart 4.0.8 
 ```bash
 helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
 
@@ -72,7 +73,10 @@ helm install ingress-nginx ingress-nginx/ingress-nginx -n ingress-nginx --create
 --set controller.hostNetwork=true --set controller.hostPort.enabled=true \
 --set controller.kind=DaemonSet \
 --set controller.tolerations[0].key=role,controller.tolerations[0].operator=Equal,controller.tolerations[0].value=infra,controller.tolerations[0].effect=NoSchedule \
---set controller.nodeSelector.role=infra
+--set controller.nodeSelector.role=infra \
+--set controller.admissionWebhooks.patch.tolerations[0].key=role,controller.admissionWebhooks.patch.tolerations[0].operator=Equal,controller.admissionWebhooks.patch.tolerations[0].value=infra,controller.admissionWebhooks.patch.tolerations[0].effect=NoSchedule \
+--set controller.admissionWebhooks.patch.nodeSelector.role=infra \
+--version v4.0.8
 
 # Or
 # helm show values ingress-nginx/ingress-nginx > ingress-nginx.values.yaml
