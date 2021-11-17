@@ -65,7 +65,7 @@ done
 ```
 
 #### Install Ingress Nginx
-Tested on Karbon 2.3 | Kubernetes 1.20 | Ingress Nginx Helm chart 4.0.8 
+Tested on Karbon 2.3 | Kubernetes 1.20.9-0 | Ingress Nginx Helm chart 4.0.8 
 ```bash
 helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
 
